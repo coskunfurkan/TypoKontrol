@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <title>Typo</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{{ url_for('static',    filename='css/template.css') }}">
+        <link rel="icon" href="data:;base64,=">
+    </head>
+    <body>
+        <div class="outerContainer">
+            <div class="pageTitle">
+                <span class="titleText"></span>
+            </div>
+            <div class="generalContent">
+                <div class="textInput">
+                    <span class="inputLabel">Metin Alanı</span>
+                    <textarea type= "text" class="inputText" id="inputWords" name="inputMessage" placeholder="Kontrol etmek istediğiniz metni buraya yapıştırabilirsiniz..."></textarea>
+                </div>
+                <div class="buttonContainer">
+                    <div class="buttonWrapper">
+                        <div class="buttonBackground"></div>
+                        <button href="/submit" id="buttonFunc">
+                        <span>
+                        Kontrol Et
+                        </span>
+                        </button>
+                    </div>
+                </div>
+                <div class="textInput">
+                    <span class="inputLabel">Sonuç</span>
+                    <textarea disabled type= "text" class="inputText" id="outputWords" name="outputMessage" placeholder="Sonucunuz burada görüntelenecektir..."></textarea>
+                </div>
+            </div>
+        </div>
+        <div id="loadingImage"><div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div></div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+            $("#buttonFunc").click(function(){
+                var text = $("#inputWords").val();
+
+                $.ajax({
+                  url: "/",
+                  type: "GET",
+                  data: {jsdata: text},
+                  beforeSend: function() {
+                     $("#loadingImage").show();
+                  },
+                  success: function(response) {
+                    $("#outputWords").val(response);
+                    $("#loadingImage").hide();
+                  },
+                  error: function(xhr) {
+                    alert('Error occured!')
+                  }
+                });
+            });
+        </script>
+    </body>
+</html>
